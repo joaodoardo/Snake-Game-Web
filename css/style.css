@@ -41,6 +41,12 @@ body {
     border-radius: 25%;
 }
 
+.cobra-computador {
+    background-color: rgb(255, 153, 0);
+    border-radius: 25%;
+}
+
+
 .comida {
     background-color: rgb(255, 0, 149); 
     border-radius: 25%;
@@ -70,8 +76,16 @@ body {
     background-color: #4b0275;
     border: 0;
     color: white;
-    width: 20vw;
-    height: 8vh;
+    width: 15vw;
+    height: 4vh;
+}
+
+#modo-vs-computador {
+    background-color: #4b0275;
+    border: 0;
+    color: white;
+    width: 15vw;
+    height: 4vh;
 }
 
 .escondido {
@@ -79,7 +93,7 @@ body {
 }
 
 button {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 img{

@@ -8,6 +8,11 @@ let pontuacao = 0;
 let intervaloJogo;
 let nomeJogador;
 
+let modoVsComputador = false; 
+let cobraComputador = [{ x: 15, y: 15 }]; 
+let direcaoComputador = { x: -1, y: 0 }; 
+
+
 let ranking = JSON.parse(localStorage.getItem('ranking')) || [];
 
 
@@ -23,7 +28,9 @@ tabuleiro.style.setProperty('--tamanho-grade', TAMANHO_GRADE);
 tabuleiro.style.setProperty('--tamanho-celula', `${TAMANHO_CELULA}px`);
 
 function desenhar() {
-    tabuleiro.innerHTML = ''; 
+    tabuleiro.innerHTML = ''; //limpa o tabuleiro
+
+    //desenha a cobra do jogador
     cobra.forEach(segmento => {
         const elementoCobra = document.createElement('div');
         elementoCobra.style.gridRowStart = segmento.y;
@@ -32,12 +39,25 @@ function desenhar() {
         tabuleiro.appendChild(elementoCobra);
     });
 
+    //desenha a cobra do computador 
+    if (modoVsComputador) {
+        cobraComputador.forEach(segmento => {
+            const elementoCobraComputador = document.createElement('div');
+            elementoCobraComputador.style.gridRowStart = segmento.y;
+            elementoCobraComputador.style.gridColumnStart = segmento.x;
+            elementoCobraComputador.classList.add('celula', 'cobra-computador');
+            tabuleiro.appendChild(elementoCobraComputador);
+        });
+    }
+
+    //desenha a comida
     const elementoComida = document.createElement('div');
     elementoComida.style.gridRowStart = comida.y;
     elementoComida.style.gridColumnStart = comida.x;
     elementoComida.classList.add('celula', 'comida');
     tabuleiro.appendChild(elementoComida);
 }
+
 
 function atualizar() {
     //se a cobra não estiver se movendo após reiniciar, começa a se mover para a direita
@@ -66,7 +86,40 @@ function atualizar() {
     } else {
         cobra.pop(); //remove o último segmento da cobra no caso dela não ter comido
     }
+
+    if (modoVsComputador) atualizarComputador();
+
 }
+
+function atualizarComputador() {
+    const cabecaComputador = { x: cobraComputador[0].x + direcaoComputador.x, y: cobraComputador[0].y + direcaoComputador.y };
+
+    //verifica colisão com a parede ou próprio corpo
+    if (
+        cabecaComputador.x < 1 || cabecaComputador.x > TAMANHO_GRADE ||
+        cabecaComputador.y < 1 || cabecaComputador.y > TAMANHO_GRADE ||
+        cobraComputador.some(segmento => segmento.x === cabecaComputador.x && segmento.y === cabecaComputador.y)
+    ) {
+        modoVsComputador = false; 
+        return;
+    }
+
+    cobraComputador.unshift(cabecaComputador);
+
+    //seguir a comida
+    if (comida.x > cabecaComputador.x) direcaoComputador = { x: 1, y: 0 };
+    if (comida.x < cabecaComputador.x) direcaoComputador = { x: -1, y: 0 };
+    if (comida.y > cabecaComputador.y) direcaoComputador = { x: 0, y: 1 };
+    if (comida.y < cabecaComputador.y) direcaoComputador = { x: 0, y: -1 };
+
+    //se a cobra do computador comer a comida, não remove o último segmento
+    if (cabecaComputador.x === comida.x && cabecaComputador.y === comida.y) {
+        posicionarComida();
+    } else {
+        cobraComputador.pop();
+    }
+}
+
 
 function posicionarComida() {
     comida = {
@@ -74,7 +127,7 @@ function posicionarComida() {
         y: Math.floor(Math.random() * TAMANHO_GRADE) + 1
     };
 
-    // Evita que a comida seja colocada em cima da cobra
+    //evita que a comida seja colocada em cima da cobra
     while (cobra.some(segmento => segmento.x === comida.x && segmento.y === comida.y)) {
         comida = {
             x: Math.floor(Math.random() * TAMANHO_GRADE) + 1,
@@ -132,14 +185,26 @@ botaoReiniciar.addEventListener('click', () => {
     pontuacao = 0;
     posicionarComida();
     telaGameOver.classList.add('escondido');
-    iniciarJogo();
+    tabuleiro.innerHTML = '';
+    menu.classList.remove('escondido');
 });
 
 
 botaoComecar.addEventListener('click', () => {
+    modoVsComputador = false;
     menu.classList.add('escondido'); //esconde o menu
     iniciarJogo();
 });
+
+document.getElementById('modo-vs-computador').addEventListener('click', () => {
+    menu.classList.add('escondido');
+    modoVsComputador = true;
+    cobraComputador = [{ x: 15, y: 15 }]; 
+    direcaoComputador = { x: -1, y: 0 }; 
+    iniciarJogo();
+    
+});
+
 
 document.addEventListener('keydown', movimentacao);
 
