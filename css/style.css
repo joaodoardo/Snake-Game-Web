@@ -1,0 +1,88 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #4b0275;
+    background-image: url('../images/background.jpg');
+    background-size: cover;
+    background-position: top; 
+    background-repeat: no-repeat; 
+    height: 100vh; 
+    margin: 0; 
+    font-family: Arial, sans-serif;
+}
+
+.container-jogo {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+}
+
+#tabuleiro {
+    display: grid;
+    grid-template-columns: repeat(var(--tamanho-grade), var(--tamanho-celula));
+    grid-template-rows: repeat(var(--tamanho-grade), var(--tamanho-celula));
+    gap: 1px;
+    background-color: #131313;
+    border: solid 3px rgb(138, 138, 138);
+}
+
+.celula {
+    width: var(--tamanho-celula);
+    height: var(--tamanho-celula);
+    background-color: #131313;
+}
+
+.cobra {
+    background-color: #4b0275; 
+    border-radius: 25%;
+}
+
+.comida {
+    background-color: rgb(255, 0, 149); 
+    border-radius: 25%;
+}
+
+#tela-game-over {
+    color: white;
+    background-color: #131313;
+    border: solid 3px rgb(138, 138, 138);
+    position: fixed;
+    margin-top: 5rem;
+    width: 20%;
+}
+
+#menu {
+    color: white;
+    position: fixed;
+    margin-top: 7rem;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#comecar {
+    background-color: #4b0275;
+    border: 0;
+    color: white;
+    width: 20vw;
+    height: 8vh;
+}
+
+.escondido {
+    display: none !important;
+}
+
+button {
+    margin-bottom: 2rem;
+}
+
+img{
+    width: 15vw;
+    margin-bottom: 3vh;
+}

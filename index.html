@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Snake</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="images/icon.png" type="image/x-icon">
+</head>
+<body>
+    <div class="container-jogo">
+        <div id="menu">
+            <img src="images/manda.png" alt="">
+            <button id="comecar">Iniciar Jogo</button>
+        </div>
+        <div id="tela-game-over" class="escondido">
+            <h2>Fim de Jogo!</h2>
+            <p>Nome do Jogador: <span id="display-nome-jogador"></span></p>
+            <p>Pontuação: <span id="display-pontuacao"></span></p>
+            <button id="botao-reiniciar">Jogar Novamente</button>
+        </div>
+        <div id="tabuleiro"></div>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>
